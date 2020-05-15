@@ -20,5 +20,7 @@ Route::get('/', 'MedicamentController@index');
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('category', 'CategoryController');
     Route::resource('medicament', 'MedicamentController');
+    Route::resource('exempt', 'ExemptController');
+    Route::resource('release', 'ReleaseController');
 });
 

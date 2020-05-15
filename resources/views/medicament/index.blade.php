@@ -19,7 +19,7 @@
                 <div class="panel-heading">
                     <form action="/">
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <label>Категория лекарства</label>
                                 <select class="form-control" name="category_id">
                                     <option @if(Request()->category_id == '')) selected @endif value={{ null }}>Все</option>
@@ -29,6 +29,34 @@
                                             @if(Request()->category_id == $category->id) selected @endif
                                         >
                                             {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Категория льготника</label>
+                                <select class="form-control" name="exempt_id">
+                                    <option @if(Request()->exempt_id == '')) selected @endif value={{ null }}>Все</option>
+                                    @foreach ($exempts as $exempt)
+                                        <option 
+                                            value="{{ $exempt->id }}"
+                                            @if(Request()->exempt_id == $exempt->id) selected @endif
+                                        >
+                                            {{ $exempt->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-5">
+                                <label>Форма выпуска</label>
+                                <select class="form-control" name="release_id">
+                                    <option @if(Request()->release_id == '')) selected @endif value={{ null }}>Все</option>
+                                    @foreach ($releases as $release)
+                                        <option 
+                                            value="{{ $release->id }}"
+                                            @if(Request()->release_id == $release->id) selected @endif
+                                        >
+                                            {{ $release->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -50,6 +78,8 @@
                         <th scope="col">#</th>
                         <th scope="col">Название</th>
                         <th scope="col">Категория</th>
+                        <th scope="col">Льготник</th>
+                        <th scope="col">Форма выпуска</th>
                         @if(!Auth::guest())
                             <th scope="col"></th>
                         @endif
@@ -61,6 +91,8 @@
                                 <th scope="row">1</th>
                                 <td>{{ $medicament->name }}</td>
                                 <td>{{ $medicament->category->name }}</td>
+                                <td>{{ $medicament->exempt->name }}</td>
+                                <td>{{ $medicament->release->name }}</td>
                                 @if(!Auth::guest())
                                     <td>
                                         <span style="float: right">

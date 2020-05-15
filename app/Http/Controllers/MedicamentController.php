@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Exempt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Medicament;
+use App\Release;
 
 class MedicamentController extends Controller
 {
@@ -18,8 +20,16 @@ class MedicamentController extends Controller
     {
         $medicaments = new Medicament();
 
-        if($request->get('status')) {
+        if($request->get('category_id')) {
             $medicaments = $medicaments->where('category_id', $request->get('category_id'));
+        }
+
+        if($request->get('exempt_id')) {
+            $medicaments = $medicaments->where('exempt_id', $request->get('exempt_id'));
+        }
+
+        if($request->get('release_id')) {
+            $medicaments = $medicaments->where('release_id', $request->get('release_id'));
         }
 
         if($request->get('search')) {
@@ -29,7 +39,12 @@ class MedicamentController extends Controller
             }
         }
 
-        return view('medicament.index', ['medicaments' => $medicaments->get(), 'categories' => Category::get()]);
+        return view('medicament.index', [
+            'medicaments' => $medicaments->get(), 
+            'categories' => Category::get(),
+            'exempts' => Exempt::get(),
+            'releases' => Release::get()
+        ]);
     }
 
     /**
@@ -39,7 +54,11 @@ class MedicamentController extends Controller
      */
     public function create()
     {
-        return view('medicament.create', ['categories' => Category::get()]);
+        return view('medicament.create', [
+            'categories' => Category::get(),
+            'exempts' => Exempt::get(),
+            'releases' => Release::get()
+        ]);
     }
 
     /**
@@ -53,7 +72,9 @@ class MedicamentController extends Controller
         $medicament = Medicament::create(
             [
                 'name' => $request->name,
-                'category_id' => $request->category_id
+                'category_id' => $request->category_id,
+                'exempt_id' => $request->exempt_id,
+                'release_id' => $request->release_id,
             ]
         );
         
@@ -81,7 +102,12 @@ class MedicamentController extends Controller
      */
     public function edit($id)
     {
-        return view('medicament.edit', ['categories' => Category::get(), 'medicament' => Medicament::find($id)]);
+        return view('medicament.edit', [
+            'categories' => Category::get(), 
+            'exempts' => Exempt::get(),
+            'releases' => Release::get(),
+            'medicament' => Medicament::find($id)
+            ]);
     }
 
     /**
@@ -97,6 +123,8 @@ class MedicamentController extends Controller
 
         $medicament->name = $request->name;
         $medicament->category_id = $request->category_id;
+        $medicament->exempt_id = $request->exempt_id;
+        $medicament->release_id = $request->release_id;
 
         $medicament->save();
     }

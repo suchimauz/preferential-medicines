@@ -47,6 +47,8 @@
                         <li><a href="{{ url('/') }}">Лекарства</a></li>
                         @if (!Auth::guest())
                             <li><a href="{{ url('/category') }}">Категории</a></li>
+                            <li><a href="{{ url('/exempt') }}">Льгоники</a></li>
+                            <li><a href="{{ url('/release') }}">Формы выпуска</a></li>
                         @endif
                     </ul>
 

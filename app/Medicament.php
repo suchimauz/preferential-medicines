@@ -13,4 +13,12 @@ class Medicament extends Model
     public function category() {
         return $this->belongsTo('App\Category');
     }
+
+    public function exempt() {
+        return $this->belongsTo('App\Exempt');
+    }
+
+    public function release() {
+        return $this->belongsTo('App\Release');
+    }
 }
