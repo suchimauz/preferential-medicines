@@ -127,6 +127,8 @@ class MedicamentController extends Controller
         $medicament->release_id = $request->release_id;
 
         $medicament->save();
+
+        return redirect('/medicament');
     }
 
     /**
